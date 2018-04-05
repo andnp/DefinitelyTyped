@@ -1,6 +1,6 @@
-/*
-Basic usage examples
-*/
+// -------------------------
+// Basic usage examples
+// -------------------------
 {
 	// functions and constants
 	math.round(math.e, 3);
@@ -27,9 +27,9 @@ Basic usage examples
 	math.add(math.matrix([2, 3]), [4, 5]); // Matrix + Array, [6, 8]
 }
 
-/*
-Bignumbers examples
-*/
+// -------------------------
+// Bignumbers examples
+// -------------------------
 {
 	// configure the default type of numbers as BigNumbers
 	math.config({
@@ -42,10 +42,9 @@ Bignumbers examples
 		math.divide(math.bignumber(0.3), math.bignumber(0.2));  // BigNumber, 1.5
 	}
 }
-
-/*
-Chaining examples
-*/
+// -------------------------
+// Chaining examples
+// -------------------------
 {
 	const a = math.chain(3)
 		.add(4)
@@ -77,9 +76,9 @@ Chaining examples
 		.done();
 }
 
-/*
-Complex numbers examples
-*/
+// -------------------------
+// Complex numbers examples
+// -------------------------
 {
 	const a = math.complex(2, 3);
 	// create a complex number by providing a string with real and complex parts
@@ -121,9 +120,9 @@ Complex numbers examples
 	}
 }
 
-/*
-Expressions examples
-*/
+// -------------------------
+// Expressions examples
+// -------------------------
 {
 	// evaluate expressions
 	{
@@ -187,9 +186,9 @@ Expressions examples
 	parser.clear();
 }
 
-/*
-Fractions examples
-*/
+// -------------------------
+// Fractions examples
+// -------------------------
 {
 	// configure the default type of numbers as Fractions
 	math.config({
@@ -210,9 +209,9 @@ Fractions examples
 	console.log(math.format(a, {fraction: 'decimal'}));
 }
 
-/*
-Matrices examples
-*/
+// -------------------------
+// Matrices examples
+// -------------------------
 {
 	// create matrices and arrays. a matrix is just a wrapper around an Array,
 	// providing some handy utilities.
@@ -272,9 +271,9 @@ Matrices examples
 	}
 }
 
-/*
-Sparse matrices examples
-*/
+// -------------------------
+// Sparse matrices examples
+// -------------------------
 {
 	// create a sparse matrix
 	const a = math.eye(1000, 1000, 'sparse');
@@ -286,9 +285,9 @@ Sparse matrices examples
 	const e = math.multiply(d, a);
 }
 
-/*
-Units examples
-*/
+// -------------------------
+// Units examples
+// -------------------------
 {
 	// units can be created by providing a value and unit name, or by providing
 	// a string with a valued unit.
@@ -340,9 +339,9 @@ Units examples
 	math.eval('2 inch to cm');
 }
 
-/*
-Expression tree examples
-*/
+// -------------------------
+// Expression tree examples
+// -------------------------
 {
 	// Filter an expression tree
 	const node: math.MathNode = math.parse('x^2 + x/4 + 3*y');
@@ -364,4 +363,40 @@ Expression tree examples
 				return node.type === 'any string at all';
 		}
 	});
+}
+
+// -------------------------
+// Linear Algebra tests
+// -------------------------
+{
+	const rawArr = [1, 2];
+	const rawMat = [[1], [2]];
+	const mat: math.Matrix = math.matrix(rawMat);
+
+	// lsolve
+	{
+		const a: math.MathArray = math.lsolve(rawMat, rawArr);
+		const b: math.MathArray = math.lsolve(rawMat, mat);
+		const c: math.Matrix = math.lsolve(mat, rawArr);
+		const d: math.Matrix = math.lsolve(mat, mat);
+	}
+
+	// lup
+	{
+		const a: math.MathArray = math.lup(rawMat);
+		const b: math.Matrix = math.lup(mat);
+	}
+
+	// lusolve
+	{
+		const a: math.MathArray = math.lusolve(rawMat, rawArr);
+		const b: math.MathArray = math.lusolve(rawMat, mat);
+		const c: math.Matrix = math.lusolve(mat, rawArr);
+		const d: math.Matrix = math.lusolve(mat, mat);
+	}
+
+	// slu
+	{
+		const a: math.Matrix = math.slu(mat, 0, 0);
+	}
 }

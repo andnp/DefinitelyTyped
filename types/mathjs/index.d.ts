@@ -12,7 +12,9 @@ export as namespace math; // tslint:disable-line strict-export-declare-modifiers
 export = math; // tslint:disable-line strict-export-declare-modifiers
 
 declare namespace math { // tslint:disable-line strict-export-declare-modifiers
-	type MathArray = number[]|number[][];
+	type RawArray = number[];
+	type RawMatrix = number[][];
+	type MathArray = RawArray | RawMatrix;
 	type MathType = number|BigNumber|Fraction|Complex|Unit|MathArray|Matrix;
 	type MathExpression = string|string[]|MathArray|Matrix;
 
@@ -32,9 +34,10 @@ declare namespace math { // tslint:disable-line strict-export-declare-modifiers
 		SQRT2: number;
 		tau: number;
 
+		// TODO: deprecated in v4.0.0
 		uninitialized: any;
-		version: string;
 
+		version: string;
 		expression: MathNode;
 
 		config: (options: any) => void;
@@ -45,7 +48,8 @@ declare namespace math { // tslint:disable-line strict-export-declare-modifiers
 		 * @param b A column vector with the b values
 		 * @returns A column vector with the linear system solution (x)
 		 */
-		lsolve(L: Matrix|MathArray, b: Matrix|MathArray): Matrix|MathArray;
+		lsolve(L: RawMatrix, b: Matrix | MathArray): MathArray;
+		lsolve(L: Matrix, b: Matrix | MathArray): Matrix;
 
 		/**
 		 * Calculate the Matrix LU decomposition with partial pivoting. Matrix A is decomposed in two matrices (L, U)
@@ -53,7 +57,8 @@ declare namespace math { // tslint:disable-line strict-export-declare-modifiers
 		 * @param A A two dimensional matrix or array for which to get the LUP decomposition.
 		 * @returns The lower triangular matrix, the upper triangular matrix and the permutation matrix.
 		 */
-		lup(A?: Matrix|MathArray): MathArray;
+		lup(A: Matrix): Matrix;
+		lup(A: MathArray): MathArray;
 
 		/**
 		 * Solves the linear system A * x = b where A is an [n x n] matrix and b is a [n] column vector.
@@ -61,7 +66,8 @@ declare namespace math { // tslint:disable-line strict-export-declare-modifiers
 		 * @param b Column Vector
 		 * @returns Column vector with the solution to the linear system A * x = b
 		 */
-		lusolve(A: Matrix|MathArray|number, b: Matrix|MathArray): Matrix|MathArray;
+		lusolve(A: Matrix, b: Matrix | MathArray): Matrix;
+		lusolve(A: MathArray, b: Matrix | MathArray): MathArray;
 
 		/**
 		 * Calculate the Sparse Matrix LU decomposition with full pivoting. Sparse Matrix A is decomposed in
@@ -76,7 +82,7 @@ declare namespace math { // tslint:disable-line strict-export-declare-modifiers
 		 * @param threshold Partial pivoting threshold (1 for partial pivoting)
 		 * @returns The lower triangular matrix, the upper triangular matrix and the permutation vectors.
 		 */
-		slu(A: Matrix, order: number, threshold: number): any;
+		slu(A: Matrix, order: number, threshold: number): Matrix;
 
 		/**
 		 * Solves the linear equation system by backward substitution. Matrix must be an upper triangular matrix. U * x = b
@@ -84,7 +90,8 @@ declare namespace math { // tslint:disable-line strict-export-declare-modifiers
 		 * @param b A column vector with the b values
 		 * @returns A column vector with the linear system solution (x)
 		 */
-		usolve(U: Matrix|MathArray, b: Matrix|MathArray): Matrix|MathArray;
+		usolve(U: Matrix, b: Matrix | MathArray): Matrix;
+		usolve(U: MathArray, b: Matrix | MathArray): MathArray;
 
 		/**
 		 * Calculate the absolute value of a number. For matrices, the function is evaluated element wise.
